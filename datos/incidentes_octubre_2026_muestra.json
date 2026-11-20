@@ -1,0 +1,47 @@
+[
+  {
+    "fecha": "2026-10-02",
+    "provincia": "NAPO",
+    "canton": "TENA",
+    "cod_parroquia": "150150",
+    "parroquia": "TENA, CABECERA CANTONAL Y CAPITAL PROVINCIAL",
+    "servicio": "Seguridad Ciudadana",
+    "subtipo": "Presencia policial"
+  },
+  {
+    "fecha": "2026-10-02",
+    "provincia": "NAPO",
+    "canton": "TENA",
+    "cod_parroquia": "150150",
+    "parroquia": "TENA, CABECERA CANTONAL Y CAPITAL PROVINCIAL",
+    "servicio": "Seguridad Ciudadana",
+    "subtipo": "Presencia policial"
+  },
+  {
+    "fecha": "2026-10-02",
+    "provincia": "NAPO",
+    "canton": "TENA",
+    "cod_parroquia": "150150",
+    "parroquia": "TENA, CABECERA CANTONAL Y CAPITAL PROVINCIAL",
+    "servicio": "Seguridad Ciudadana",
+    "subtipo": "Presencia policial"
+  },
+  {
+    "fecha": "2026-10-01",
+    "provincia": "PICHINCHA",
+    "canton": "QUITO",
+    "cod_parroquia": "170150",
+    "parroquia": "QUITO DISTRITO METROPOLITANO, CABECERA CANTONAL, *",
+    "servicio": "Seguridad Ciudadana",
+    "subtipo": "Ruidos molestosos"
+  },
+  {
+    "fecha": "2026-10-01",
+    "provincia": "PICHINCHA",
+    "canton": "QUITO",
+    "cod_parroquia": "170150",
+    "parroquia": "QUITO DISTRITO METROPOLITANO, CABECERA CANTONAL, *",
+    "servicio": "Seguridad Ciudadana",
+    "subtipo": "Ruidos molestosos"
+  }
+]

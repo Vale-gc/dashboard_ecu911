@@ -1,0 +1,62 @@
+{
+  "archivo_csv": "incidentes_octubre_2026.csv",
+  "codificacion": "utf-8-sig",
+  "separador": ";",
+  "filas_leidas_csv": 454099,
+  "filas_con_columnas_ajustadas": 0,
+  "columnas": {
+    "fecha": {
+      "tipo": "fecha",
+      "nulos": 0,
+      "inconsistentes": 0,
+      "ejemplos_inconsistentes": [],
+      "nombre_original": "Fecha"
+    },
+    "provincia": {
+      "tipo": "texto",
+      "nulos": 62,
+      "inconsistentes": 0,
+      "ejemplos_inconsistentes": [],
+      "nombre_original": "provincia"
+    },
+    "canton": {
+      "tipo": "texto",
+      "nulos": 62,
+      "inconsistentes": 0,
+      "ejemplos_inconsistentes": [],
+      "nombre_original": "Canton"
+    },
+    "cod_parroquia": {
+      "tipo": "texto",
+      "nulos": 62,
+      "inconsistentes": 0,
+      "ejemplos_inconsistentes": [],
+      "nombre_original": "Cod_Parroquia"
+    },
+    "parroquia": {
+      "tipo": "texto",
+      "nulos": 62,
+      "inconsistentes": 0,
+      "ejemplos_inconsistentes": [],
+      "nombre_original": "Parroquia"
+    },
+    "servicio": {
+      "tipo": "texto",
+      "nulos": 0,
+      "inconsistentes": 0,
+      "ejemplos_inconsistentes": [],
+      "nombre_original": "Servicio"
+    },
+    "subtipo": {
+      "tipo": "texto",
+      "nulos": 0,
+      "inconsistentes": 0,
+      "ejemplos_inconsistentes": [],
+      "nombre_original": "Subtipo"
+    }
+  },
+  "validacion": {
+    "correcta": true,
+    "errores": []
+  }
+}
