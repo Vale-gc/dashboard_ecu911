@@ -70,3 +70,37 @@ git commit -m "Sprint 1: transformación de datos CSV a JSON"
 git push
 git rev-parse HEAD     # SHA completo del commit, para el reporte
 ```
+
+---
+
+# Sprint 2: Componentes e interfaces React
+
+Interfaz del dashboard con **React + TypeScript + Vite + Material UI**.
+
+## Ejecutar
+
+```bash
+npm install
+npm run dev        # http://localhost:5173
+npm run build      # comprueba tipos y genera dist/
+```
+
+## Estructura
+
+```
+src/
+├── App.tsx                 # contenedor: único dueño del estado (filtros, sección activa)
+├── main.tsx · theme.ts     # tema de Material UI (punto de quiebre md = 768 px)
+├── types.ts                # tipos de las props y de los datos
+├── data/                   # datos de ejemplo (muestra de 2.500 registros del JSON del Sprint 1)
+├── utils/                  # cálculos (filtros, agregados) y formatos
+└── components/
+    ├── layout/   DashboardLayout, NavMenu, SourceCard, Header
+    ├── filters/  FilterBar, SelectFilter
+    ├── kpi/      KpiGrid, KpiCard
+    ├── charts/   ChartCard, TimeSeriesChart, ServiceBreakdown, TerritoryMap, RankingList, TopSubtypesChart
+    ├── table/    DataTable
+    └── common/   Badge, iconos
+scripts/generar_muestra.py  # genera src/data/incidentes_muestra.json (semilla 911)
+capturas/                   # capturas de escritorio y móvil
+```
