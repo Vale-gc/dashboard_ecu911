@@ -1,5 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
+import Typography from '@mui/material/Typography';
 import Badge from './components/common/Badge';
 import { colorDeServicio } from './components/common/iconos';
 import ChartCard from './components/charts/ChartCard';
@@ -14,7 +17,9 @@ import DashboardLayout, { SeccionDashboard } from './components/layout/Dashboard
 import Header from './components/layout/Header';
 import NavMenu from './components/layout/NavMenu';
 import DataTable from './components/table/DataTable';
-import { FUENTE, META, REGISTROS, SECCIONES } from './data/datos';
+import { FUENTE, SECCIONES } from './data/datos';
+import { useEmergencias } from './hooks/useEmergencias';
+import type { Emergencias } from './firebase/emergencias';
 import type { ClaveFiltro, Columna, Filtros, Indicador, Registro, SeccionId } from './types';
 import {
   FILTROS_INICIALES,
@@ -29,9 +34,6 @@ import {
   variacionSemanal,
 } from './utils/calculos';
 import { formatoDecimal, formatoFecha, formatoNumero, formatoPorcentaje, nombreLegible } from './utils/formatos';
-
-const MES_ISO = REGISTROS[0].fecha.slice(0, 7); // "2026-10"
-const FILTROS_BASE = FILTROS_INICIALES(META.periodo);
 
 const COLUMNAS: Columna<Registro>[] = [
   { clave: 'fecha', titulo: 'Fecha', render: (r) => formatoFecha(r.fecha) },
@@ -71,19 +73,51 @@ function descargarResumen(indicadores: Indicador[], filtros: Filtros) {
 }
 
 /**
- * Componente raíz (contenedor). Es el ÚNICO dueño del estado compartido:
- * filtros activos y sección activa. De ahí calcula los datos derivados y los reparte por props.
+ * Componente raíz. Recupera los datos de Firebase (useEmergencias) y muestra el estado
+ * de carga o de error; cuando los datos llegan, pinta el dashboard.
  */
 export default function App() {
+  const { datos, cargando, error } = useEmergencias();
+
+  if (cargando) {
+    return (
+      <Box role="status" sx={{ minHeight: '100vh', display: 'grid', placeItems: 'center', alignContent: 'center', gap: 2 }}>
+        <CircularProgress />
+        <Typography color="text.secondary">Recuperando emergencias desde Firebase…</Typography>
+      </Box>
+    );
+  }
+
+  if (error || !datos) {
+    return (
+      <Box sx={{ minHeight: '100vh', display: 'grid', placeItems: 'center', p: 3 }}>
+        <Alert severity="error" sx={{ maxWidth: 560 }}>
+          <b>No se pudieron cargar los datos.</b> {error}
+        </Alert>
+      </Box>
+    );
+  }
+
+  return <Dashboard meta={datos.meta} registros={datos.registros} />;
+}
+
+/**
+ * Contenedor del dashboard. Es el ÚNICO dueño del estado compartido:
+ * filtros activos y sección activa. De ahí calcula los datos derivados y los reparte por props.
+ */
+function Dashboard({ meta: META, registros: REGISTROS }: Emergencias) {
+  const MES_ISO = REGISTROS[0]?.fecha.slice(0, 7) ?? ''; // "2026-10"
+  const FILTROS_BASE = useMemo(() => FILTROS_INICIALES(META.periodo), [META.periodo]);
+
   // --- Estado (useState) ---
   const [filtros, setFiltros] = useState<Filtros>(FILTROS_BASE);
   const [seccionActiva, setSeccionActiva] = useState<SeccionId>('resumen');
   const navegandoHasta = useRef(0); // ignora al observador mientras dura el desplazamiento suave
 
   // --- Datos derivados (se recalculan solo cuando cambian los filtros) ---
-  const filtrados = useMemo(() => filtrarRegistros(REGISTROS, filtros), [filtros]);
-  const opciones = useMemo(() => calcularOpciones(REGISTROS, filtros, META.periodo), [filtros]);
-  const serie = useMemo(() => serieDiaria(filtrados, MES_ISO), [filtrados]);
+  const filtrados = useMemo(() => filtrarRegistros(REGISTROS, filtros), [REGISTROS, filtros]);
+  const opciones = useMemo(() => calcularOpciones(REGISTROS, filtros, META.periodo), [REGISTROS, META.periodo, filtros]);
+  const serie = useMemo(() => serieDiaria(filtrados, MES_ISO), [filtrados, MES_ISO]);
   const servicios = useMemo(() => resumenServicios(filtrados, 4), [filtrados]);
   const provincias = useMemo(() => resumenProvincias(filtrados), [filtrados]);
   const subtipos = useMemo(() => resumenSubtipos(filtrados, 5), [filtrados]);
@@ -120,7 +154,7 @@ export default function App() {
         icono: 'escudo',
       },
     ];
-  }, [filtrados, provincias, serie]);
+  }, [filtrados, provincias, serie, META.periodo]);
 
   // --- Acciones del usuario (suben desde los hijos mediante funciones) ---
   const cambiarFiltro = useCallback((clave: ClaveFiltro, valor: string) => {
@@ -132,7 +166,7 @@ export default function App() {
     }));
   }, []);
 
-  const restablecer = useCallback(() => setFiltros(FILTROS_BASE), []);
+  const restablecer = useCallback(() => setFiltros(FILTROS_BASE), [FILTROS_BASE]);
 
   const navegar = useCallback((id: SeccionId) => {
     setSeccionActiva(id);

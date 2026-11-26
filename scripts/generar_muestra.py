@@ -18,7 +18,7 @@ RAIZ = Path(__file__).resolve().parent.parent
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--entrada", default=str(RAIZ / "datos" / "incidentes_octubre_2026.json"))
-    p.add_argument("--salida", default=str(RAIZ / "src" / "data" / "incidentes_muestra.json"))
+    p.add_argument("--salida", default=str(RAIZ / "datos" / "incidentes_octubre_2026_firebase.json"))
     p.add_argument("--n", type=int, default=2500)
     p.add_argument("--semilla", type=int, default=911)
     a = p.parse_args()
