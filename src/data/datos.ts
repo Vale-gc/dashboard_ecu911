@@ -1,9 +1,4 @@
-import muestra from './incidentes_muestra.json';
-import type { Fuente, MetaDatos, Registro, Seccion } from '../types';
-
-/** Datos de ejemplo: muestra aleatoria (semilla 911) del JSON del Sprint 1. */
-export const META: MetaDatos = muestra.meta;
-export const REGISTROS: Registro[] = muestra.registros;
+import type { Fuente, Seccion } from '../types';
 
 export const FUENTE: Fuente = {
   nombre: 'Base de Emergencias',
